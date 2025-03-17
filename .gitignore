@@ -1,0 +1,29 @@
+# ✅ 기본적으로 무시해야 할 파일들
+
+# 1. node_modules (패키지 라이브러리)
+node_modules/
+
+# 2. 환경 변수 파일 (API 키, 보안 정보)
+.env
+.env.local
+.env.development
+.env.production
+
+# 3. 빌드된 파일 (웹팩 번들 등)
+dist/
+build/
+
+# 4. 로그 및 OS 관련 파일
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.DS_Store  # macOS에서 자동 생성되는 파일
+
+# 5. IDE 및 Editor 설정 파일
+.vscode/
+.idea/
+*.swp
+
+# 6. Git에서 추적하지 않아도 되는 파일들
+package-lock.json
+yarn.lock
