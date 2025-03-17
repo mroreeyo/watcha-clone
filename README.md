@@ -4,6 +4,9 @@
 
 왓챠 극장 페이지(https://watcha.com/browse/theater)를 클론하여 주요 기능을 구현합니다.
 
+![watcha com_browse_theater](https://github.com/user-attachments/assets/d2f91bf5-aff7-4ac8-9190-afc703f93909)
+
+
 ### 🚀 핵심 기능
 
 1. **영화 목록 페이지**
