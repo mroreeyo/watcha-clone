@@ -1,11 +1,12 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client'; // ✅ `react-dom/client`에서 import
+import ReactDOM from 'react-dom/client';
 import App from './App';
+import "normalize.css"
 
 const rootElement = document.getElementById('root');
-if (!rootElement) throw new Error("Root element not found"); // ✅ Root 있는지 체크
+if (!rootElement) throw new Error("Root element not found");
 
-const root = ReactDOM.createRoot(rootElement); // ✅ createRoot 사용
+const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <App />

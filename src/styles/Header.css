@@ -1,0 +1,171 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111;
+  color: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  height: 60px;
+}
+
+body {
+  padding-top: 60px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 30px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff2e63;
+  text-decoration: none;
+}
+
+.logo svg {
+  width: 120px;
+  height: auto;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.nav-menu li {
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.nav-menu li a {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s;
+}
+
+.nav-menu li a:hover,
+.nav-menu li.active a {
+  color: #ff2e63;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  gap: 15px;
+}
+
+.search-button,
+.notification-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.login-button,
+.signup-button {
+  background: none;
+  border: 1px solid white;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.signup-button {
+  background-color: #ff2e63;
+  border: none;
+}
+
+.login-button:hover,
+.signup-button:hover {
+  opacity: 0.8;
+}
+
+/*검색 영역 스타일 */
+.search-container {
+display: flex;
+align-items: center;
+background-color: #222;
+border-radius: 20px;
+padding: 5px 10px;
+width: 250px;
+position: relative;
+}
+
+.search-input {
+border: none;
+outline: none;
+background: transparent;
+color: white;
+width: 100%;
+padding: 5px;
+font-size: 14px;
+}
+
+.search-icon {
+background: none;
+border: none;
+color: white;
+cursor: pointer;
+margin-left: 5px;
+font-size: 18px;
+}
+
+.clear-btn {
+background: none;
+border: none;
+color: gray;
+cursor: pointer;
+font-size: 14px;
+position: absolute;
+right: 10px;
+}
+
+.clear-btn:hover {
+color: white;
+}
+
+/*반응형*/
+@media screen and (max-width: 768px) {
+.header {
+  flex-direction: column;
+  text-align: center;
+  padding: 10px;
+}
+
+.header-left {
+  flex-direction: column;
+}
+
+.nav-menu {
+  flex-direction: column;
+  gap: 10px;
+}
+
+.header-right {
+  margin-top: 10px;
+}
+
+.search-container {
+  width: 200px;
+}
+}
