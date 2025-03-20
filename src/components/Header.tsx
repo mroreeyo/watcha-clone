@@ -1,27 +1,16 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import NotificationBox from "./NotificationBox";
 import "../styles/Header.css";
 
 const Header: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");  // 🔹 검색어 상태
-  const inputRef = useRef<HTMLInputElement>(null);   // 🔹 입력창 포커스 조정
+  const [isNotificationOpen, setNotificationOpen] = useState(false);
+  const iconRef = useRef<HTMLButtonElement>(null);
 
-  // 🔹 검색 입력 핸들러
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
-  // 🔹 Enter 키 이벤트 (검색 실행)
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && searchTerm.trim()) {
-      console.log("검색 실행:", searchTerm);  // 🔥 여기에 API 호출 가능
-    }
-  };
-
-  // 🔹 검색어 지우기
-  const clearSearch = () => {
-    setSearchTerm("");
-    inputRef.current?.focus();
+  // 🔔 아이콘 클릭 시 정확히 토글되도록 설정
+  const toggleNotification = (event: React.MouseEvent) => {
+    event.stopPropagation(); // 이벤트 버블링 방지
+    setNotificationOpen((prev) => !prev);
   };
 
   return (
@@ -37,23 +26,24 @@ const Header: React.FC = () => {
         </ul>
       </div>
 
-      {/* 🔍 검색 영역 */}
+      {/* 🔍 검색창 */}
       <div className="search-container">
-        <input
-          ref={inputRef}
-          type="text"
-          className="search-input"
-          placeholder="왓챠에서 검색하세요..."
-          value={searchTerm}
-          onChange={handleInputChange}
-          onKeyPress={handleKeyPress}
-        />
-        <button className="search-icon" onClick={() => inputRef.current?.focus()}>🔍</button>
-        {searchTerm && <button className="clear-btn" onClick={clearSearch}>❌</button>}
+        <input type="text" className="search-input" placeholder="코미디부터 모험까지!" />
+        <button className="search-icon">🔍</button>
       </div>
 
-      {/* 로그인 & 회원가입 */}
+      {/* 🔔 알림 아이콘 */}
       <div className="header-right">
+        <button className="notification-icon" onClick={toggleNotification} ref={iconRef}>
+          🔔
+        </button>
+        {isNotificationOpen && (
+          <NotificationBox 
+            isOpen={isNotificationOpen} 
+            onClose={() => setNotificationOpen(false)} 
+            iconRef={iconRef} 
+          />
+        )}
         <Link to="/sign_in" className="login-button">로그인</Link>
         <Link to="/sign_up" className="signup-button">회원가입</Link>
       </div>
