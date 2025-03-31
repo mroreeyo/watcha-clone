@@ -1,0 +1,10 @@
+.movie-card {
+    width: 100%;
+    text-align: center;
+    color: white;
+  }
+  
+  .movie-card img {
+    width: 100%;
+    border-radius: 8px;
+  }

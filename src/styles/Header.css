@@ -2,13 +2,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #111;
-  color: white;
+  background-color: black;
+  color: #888;
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
   height: 60px;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50px;
+  right: 50px;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 body {
@@ -32,31 +42,65 @@ body {
   text-decoration: none;
 }
 
-.logo svg {
-  width: 120px;
+.logo-image {
+  width: 130px;
   height: auto;
+  object-fit: contain;
+  margin-left: 15px;
 }
 
 .nav-menu {
   display: flex;
   list-style: none;
-  gap: 20px;
+  gap: 35px;
+  margin: 0;
+  padding: 0;
+  height: 60px;
+  align-items: center;
 }
 
 .nav-menu li {
   font-size: 16px;
   cursor: pointer;
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .nav-menu li a {
   text-decoration: none;
-  color: white;
-  transition: color 0.3s;
+  color: #888;
+  transition: all 0.3s;
+  padding: 21px 0;
+  position: relative;
 }
 
-.nav-menu li a:hover,
+.nav-menu li::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: transparent;
+  transition: background-color 0.3s;
+}
+
+.nav-menu li:hover::after {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.nav-menu li.active::after {
+  background-color: white;
+}
+
 .nav-menu li.active a {
-  color: #ff2e63;
+  color: white;
+}
+
+.nav-menu li:hover a {
+  color: white;
 }
 
 .header-right {
@@ -102,46 +146,59 @@ body {
 
 /*검색 영역 스타일 */
 .search-container {
-display: flex;
-align-items: center;
-background-color: #222;
-border-radius: 20px;
-padding: 5px 10px;
-width: 250px;
-position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #222;
+  border-radius: 20px;
+  padding: 5px 10px;
+  width: 280px;
+  position: relative;
 }
 
 .search-input {
-border: none;
-outline: none;
-background: transparent;
-color: white;
-width: 100%;
-padding: 5px;
-font-size: 14px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+  width: 100%;
+  padding: 5px;
+  font-size: 14px;
+  transition: opacity 0.4s ease;
+}
+
+.search-input.fade-out {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.search-input.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .search-icon {
-background: none;
-border: none;
-color: white;
-cursor: pointer;
-margin-left: 5px;
-font-size: 18px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-left: 5px;
+  font-size: 18px;
 }
 
 .clear-btn {
-background: none;
-border: none;
-color: gray;
-cursor: pointer;
-font-size: 14px;
-position: absolute;
-right: 10px;
+  background: none;
+  border: none;
+  color: gray;
+  cursor: pointer;
+  font-size: 14px;
+  position: absolute;
+  right: 10px;
 }
 
 .clear-btn:hover {
-color: white;
+  color: white;
 }
 
 .notification-icon {
@@ -154,26 +211,26 @@ color: white;
 
 /*반응형*/
 @media screen and (max-width: 768px) {
-.header {
-  flex-direction: column;
-  text-align: center;
-  padding: 10px;
-}
+  .header {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+  }
 
-.header-left {
-  flex-direction: column;
-}
+  .header-left {
+    flex-direction: column;
+  }
 
-.nav-menu {
-  flex-direction: column;
-  gap: 10px;
-}
+  .nav-menu {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-.header-right {
-  margin-top: 10px;
-}
+  .header-right {
+    margin-top: 10px;
+  }
 
-.search-container {
-  width: 200px;
-}
+  .search-container {
+    width: 200px;
+  }
 }

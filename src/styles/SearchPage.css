@@ -1,0 +1,37 @@
+.search-page {
+    padding: 20px;
+    background-color: #111;
+    color: white;
+  }
+  
+  .search-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .search-rank {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .search-rank li {
+    font-size: 18px;
+    padding: 5px 0;
+  }
+  
+  .category-container {
+    margin-top: 20px;
+  }
+  
+  .category-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .category-item {
+    background: #222;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
