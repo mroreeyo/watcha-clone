@@ -10,15 +10,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Check if only non-test files changed
       id: check_changes
       run: |
         git fetch origin main
-        CHANGED_FILES=$(git diff --name-only origin/main HEAD)
+        CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }})
+        echo "Changed files:"
+        echo "$CHANGED_FILES"
         if echo "$CHANGED_FILES" | grep -E "^(src/components/|src/utils/|src/hooks/|src/context/|src/pages/|src/App\.tsx|src/index\.tsx)"; then
+          echo "Found changes in test-required files"
           echo "changes=true" >> $GITHUB_OUTPUT
         else
+          echo "No changes in test-required files"
           echo "changes=false" >> $GITHUB_OUTPUT
         fi
 
