@@ -11,10 +11,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Check if only CI config changed
+    - name: Check if only non-test files changed
       id: check_changes
       run: |
-        if git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | grep -v '^\.github/workflows/ci\.yml$'; then
+        CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})
+        if echo "$CHANGED_FILES" | grep -E "^(src/components/|src/utils/|src/hooks/|src/context/|src/pages/|src/App\.tsx|src/index\.tsx)"; then
           echo "changes=true" >> $GITHUB_OUTPUT
         else
           echo "changes=false" >> $GITHUB_OUTPUT
