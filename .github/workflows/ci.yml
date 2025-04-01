@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Check changed files
+      id: changed_files
+      run: |
+        git fetch origin main
+        CHANGED_FILES=$(git diff --name-only origin/main HEAD)
+        echo "Changed files:"
+        echo "$CHANGED_FILES"
+        
+        # 테스트가 필요한 파일들이 변경되었는지 확인
+        NEEDS_TESTING=false
+        while IFS= read -r file; do
+          case "$file" in
+            src/components/*|src/utils/*|src/hooks/*|src/context/*|src/pages/*|src/App.tsx|src/index.tsx)
+              NEEDS_TESTING=true
+              break
+              ;;
+          esac
+        done <<< "$CHANGED_FILES"
+        
+        if [ "$NEEDS_TESTING" = "true" ]; then
+          echo "Test-required files were changed"
+          echo "needs_testing=true" >> $GITHUB_OUTPUT
+        else
+          echo "Only non-test files were changed"
+          echo "needs_testing=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Setup Node.js
+      if: steps.changed_files.outputs.needs_testing == 'true'
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install pnpm
+      if: steps.changed_files.outputs.needs_testing == 'true'
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
+    - name: Install dependencies
+      if: steps.changed_files.outputs.needs_testing == 'true'
+      run: pnpm install
+
+    - name: Build
+      if: steps.changed_files.outputs.needs_testing == 'true'
+      run: pnpm build
+
+    - name: Run tests
+      if: steps.changed_files.outputs.needs_testing == 'true'
+      run: pnpm test -- --passWithNoTests
+
+    - name: Check test status
+      if: steps.changed_files.outputs.needs_testing == 'true' && failure()
+      run: |
+        echo "Tests failed. This PR cannot be merged until all tests pass."
+        exit 1 
