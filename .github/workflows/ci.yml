@@ -16,16 +16,19 @@ jobs:
       with:
         node-version: '20'
 
+    - name: Install pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
     - name: Install dependencies
-      run: |
-        npm install -g npm@latest
-        npm install
+      run: pnpm install
 
     - name: Build
-      run: npm run build
+      run: pnpm build
 
     - name: Run tests
-      run: npm test -- --passWithNoTests
+      run: pnpm test -- --passWithNoTests
 
     - name: Check test status
       if: failure()
