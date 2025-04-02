@@ -1,4 +1,4 @@
-import { fetchPopularMovies, fetchTopRatedMovies, fetchUpcomingMovies } from '../utils/api';
+import { fetchPopularMovies, fetchTopRatedMovies } from '../utils/api';
 
 // API 응답을 모킹
 global.fetch = jest.fn();
