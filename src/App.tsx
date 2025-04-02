@@ -7,7 +7,6 @@ import "./styles/Header.css";
 import "./styles/SearchPage.css";
 import RecommendPage from "./pages/RecommendPage";
 
-// GitHub Actions 테스트를 위한 변경사항
 const App: React.FC = () => {
   return (
     <Router>
@@ -17,6 +16,7 @@ const App: React.FC = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/recommend" element={<RecommendPage />} />
           <Route path="/search" element={<SearchPage />} />
+
         </Routes>
       </main>
     </Router>
