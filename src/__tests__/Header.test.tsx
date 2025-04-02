@@ -13,7 +13,7 @@ describe('Header 컴포넌트', () => {
 
   it('로고가 렌더링되어야 합니다', () => {
     renderHeader();
-    expect(screen.getByAltText('logo')).toBeInTheDocument();
+    expect(screen.getByAltText('왓챠 웹툰 배너 small')).toBeInTheDocument();
   });
 
   it('네비게이션 링크들이 렌더링되어야 합니다', () => {
