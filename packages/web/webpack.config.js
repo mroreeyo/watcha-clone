@@ -49,7 +49,7 @@ module.exports = {
       template: './public/index.html'
     }),
     new Dotenv({
-      path: './.env',
+      path: path.resolve(__dirname, '../../.env'),
     }),
   ],
   devServer: {

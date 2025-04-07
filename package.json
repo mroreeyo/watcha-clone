@@ -2,20 +2,26 @@
   "name": "watcha-clone",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/react-native",
+      "**/react-native/**"
+    ]
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "pnpm --filter @watcha-clone/web dev",
     "start": "pnpm --filter @watcha-clone/web start",
-    "build": "pnpm --parallel -r build",
-    "lint": "pnpm -r lint",
-    "format": "pnpm -r format",
-    "test": "pnpm -r test",
-    "test:watch": "pnpm -r test:watch",
-    "test:coverage": "pnpm -r test:coverage",
+    "build": "pnpm -r build",
+    "lint": "eslint packages/*/src --ext .ts,.tsx",
+    "format": "prettier --write packages/*",
+    "test": "jest packages/*",
+    "test:watch": "jest --watch packages/*",
+    "test:coverage": "jest --coverage packages/*",
     "clean": "pnpm -r clean",
     "prepare": "husky install"
   },
