@@ -5,6 +5,7 @@ import SearchPage from "./pages/SearchPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import "./styles/Header.css";
 import "./styles/SearchPage.css";
 import RecommendPage from "./pages/RecommendPage";
@@ -20,6 +21,7 @@ const App: React.FC = () => {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/sign_in" element={<LoginPage />} />
           <Route path="/sign_up" element={<SignUpPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Routes>
       </main>
     </Router>

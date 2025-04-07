@@ -110,6 +110,12 @@ body {
   gap: 15px;
 }
 
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .search-button,
 .notification-button {
   background: none;
@@ -233,4 +239,102 @@ body {
   .search-container {
     width: 200px;
   }
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.notification-button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 8px;
+}
+
+.notification-button:hover {
+  color: #FF0558;
+}
+
+.profile-button {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-image {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #333;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 240px;
+  background-color: #1D1D1D;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  margin-top: 8px;
+  z-index: 1000;
+}
+
+.dropdown-header {
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dropdown-header img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.user-email {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.dropdown-content {
+  padding: 8px;
+}
+
+.dropdown-content button {
+  width: 100%;
+  padding: 12px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.dropdown-content button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.logout-button {
+  color: #FF0558 !important;
 }
