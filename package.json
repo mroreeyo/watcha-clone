@@ -8,13 +8,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "pnpm --filter @watcha-clone/web dev",
     "start": "pnpm --filter @watcha-clone/web start",
-    "build": "pnpm --filter @watcha-clone/web build",
+    "build": "pnpm --parallel -r build",
     "lint": "pnpm -r lint",
     "format": "pnpm -r format",
     "test": "pnpm -r test",
     "test:watch": "pnpm -r test:watch",
-    "test:coverage": "pnpm -r test:coverage"
+    "test:coverage": "pnpm -r test:coverage",
+    "clean": "pnpm -r clean",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
