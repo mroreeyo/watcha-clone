@@ -12,7 +12,10 @@ module.exports = {
     filename: 'bundle.js'
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      '@shared': path.resolve(__dirname, '../shared/src')
+    }
   },
   module: {
     rules: [
@@ -54,4 +57,4 @@ module.exports = {
     port: 3000,
     hot: true
   }
-};
+}; 
