@@ -2,16 +2,32 @@
   "name": "@watcha-clone/shared",
   "version": "1.0.0",
   "private": true,
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.39.7",
     "react": "^18.2.0"
   },
   "devDependencies": {
-    "rimraf": "^5.0.5"
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3"
   }
-} 
+}
