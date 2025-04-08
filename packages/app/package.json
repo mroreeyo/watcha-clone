@@ -1,0 +1,17 @@
+{
+  "name": "@watcha-clone/app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx expo start",
+    "start": "npx expo start",
+    "build": "echo 'Skipping app build for now'",
+    "clean": "rimraf dist build",
+    "lint": "eslint src --ext .ts,.tsx",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "expo-cli": "^6.3.10"
+  }
+}

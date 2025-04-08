@@ -12,15 +12,15 @@
     ]
   },
   "scripts": {
-    "dev": "pnpm --filter @watcha-clone/web dev",
-    "start": "pnpm --filter @watcha-clone/web start",
-    "build": "pnpm -r build",
-    "lint": "eslint packages/*/src --ext .ts,.tsx",
+    "dev": "turbo run dev",
+    "start": "turbo run start",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
     "format": "prettier --write packages/*",
-    "test": "jest packages/*",
+    "test": "turbo run test",
     "test:watch": "jest --watch packages/*",
-    "test:coverage": "jest --coverage packages/*",
-    "clean": "pnpm -r clean",
+    "test:coverage": "turbo run test:coverage",
+    "clean": "turbo run clean",
     "prepare": "husky install"
   },
   "devDependencies": {
@@ -33,6 +33,7 @@
     "lint-staged": "^15.2.2",
     "path-browserify": "^1.0.1",
     "prettier": "^3.2.5",
+    "turbo": "^2.5.0",
     "typescript": "^5.3.3"
   },
   "husky": {
@@ -45,5 +46,6 @@
       "eslint --fix",
       "prettier --write"
     ]
-  }
+  },
+  "packageManager": "pnpm@10.7.0"
 }
