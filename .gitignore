@@ -27,3 +27,9 @@ yarn-error.log
 # 6. Git에서 추적하지 않아도 되는 파일들
 package-lock.json
 yarn.lock
+
+# Turborepo
+.turbo
+
+# Coverage
+coverage
