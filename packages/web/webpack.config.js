@@ -9,12 +9,17 @@ module.exports = {
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/'
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
+      '@': path.resolve(__dirname, 'src'),
       '@shared': path.resolve(__dirname, '../shared/src')
+    },
+    fallback: {
+      "path": require.resolve("path-browserify")
     }
   },
   module: {
@@ -30,15 +35,10 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'images',
-            },
-          },
-        ],
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name][ext]'
+        }
       },
     ]
   },
@@ -48,7 +48,7 @@ module.exports = {
       template: './public/index.html'
     }),
     new Dotenv({
-      path: './.env',
+      path: path.resolve(__dirname, '../../.env'),
     }),
   ],
   devServer: {

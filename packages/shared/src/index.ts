@@ -1,4 +1,4 @@
 // shared 패키지의 진입점
-export * from './types';
-export * from './utils';
-export * from './components'; 
+export * from './api/supabase/client.js';
+export * from './services/auth/auth.service.js';
+export * from './types/index.js'; 
