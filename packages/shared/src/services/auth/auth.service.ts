@@ -1,17 +1,10 @@
-import { supabase } from './supabase'
+import { supabase } from '../../api/supabase/client.js';
+import type { AuthResponse, UserProfile } from '../../types/auth.js';
 
-export interface AuthError {
-  message: string
-}
+export class AuthService {
+  static supabase = supabase;
 
-export interface AuthResponse {
-  success: boolean
-  error?: AuthError
-}
-
-export const auth = {
-  // 이메일 중복 확인
-  checkEmailExists: async (email: string): Promise<boolean> => {
+  static async checkEmailExists(email: string): Promise<boolean> {
     try {
       const { error } = await supabase.auth.signInWithOtp({
         email,
@@ -20,19 +13,16 @@ export const auth = {
         }
       });
       
-      // 에러가 없다면 이메일이 존재하는 것입니다
       return !error;
     } catch (error) {
       console.error('이메일 중복 확인 중 오류:', error);
       return false;
     }
-  },
+  }
 
-  // 회원가입
-  signUp: async (email: string, password: string, name: string): Promise<AuthResponse> => {
+  static async signUp(email: string, password: string, name: string): Promise<AuthResponse> {
     try {
-      // 이메일 중복 확인
-      const emailExists = await auth.checkEmailExists(email);
+      const emailExists = await this.checkEmailExists(email);
       if (emailExists) {
         return {
           success: false,
@@ -42,7 +32,6 @@ export const auth = {
         };
       }
 
-      // 회원가입
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
@@ -56,7 +45,6 @@ export const auth = {
       if (authError) {
         console.error('회원가입 에러:', authError);
         
-        // 이미 등록된 이메일인 경우
         if (authError.message === 'User already registered') {
           return {
             success: false,
@@ -66,7 +54,6 @@ export const auth = {
           };
         }
 
-        // 이메일 형식이 잘못된 경우
         if (authError.message.includes('Invalid email')) {
           return {
             success: false,
@@ -76,7 +63,6 @@ export const auth = {
           };
         }
 
-        // 비밀번호가 짧은 경우
         if (authError.message.includes('Password should be at least 6 characters')) {
           return {
             success: false,
@@ -86,7 +72,6 @@ export const auth = {
           };
         }
 
-        // 기타 에러
         return {
           success: false,
           error: {
@@ -95,7 +80,6 @@ export const auth = {
         };
       }
       
-      // 프로필 생성
       if (authData.user) {
         const { error: profileError } = await supabase
           .from('profiles')
@@ -120,10 +104,9 @@ export const auth = {
         }
       }
     }
-  },
+  }
 
-  // 로그인
-  signIn: async (email: string, password: string): Promise<AuthResponse> => {
+  static async signIn(email: string, password: string): Promise<AuthResponse> {
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -141,10 +124,9 @@ export const auth = {
         },
       }
     }
-  },
+  }
 
-  // 로그아웃
-  signOut: async (): Promise<AuthResponse> => {
+  static async signOut(): Promise<AuthResponse> {
     try {
       const { error } = await supabase.auth.signOut()
       
@@ -159,11 +141,56 @@ export const auth = {
         },
       }
     }
-  },
+  }
 
-  // 현재 로그인한 사용자 정보 가져오기
-  getCurrentUser: async () => {
+  static async getCurrentUser() {
     const { data: { user }, error } = await supabase.auth.getUser()
     return { user, error }
+  }
+
+  static async resetPassword(email: string): Promise<AuthResponse> {
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`
+      });
+      
+      if (error) throw error;
+      
+      return {
+        success: true,
+        message: '비밀번호 재설정 이메일이 발송되었습니다. 이메일을 확인해주세요.'
+      };
+    } catch (error) {
+      console.error('비밀번호 재설정 중 오류:', error);
+      return {
+        success: false,
+        error: {
+          message: '비밀번호 재설정 이메일 발송에 실패했습니다.'
+        }
+      };
+    }
+  }
+
+  static async updatePassword(newPassword: string): Promise<AuthResponse> {
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+
+      if (error) throw error;
+
+      return {
+        success: true,
+        message: '비밀번호가 성공적으로 변경되었습니다.'
+      };
+    } catch (error) {
+      console.error('비밀번호 변경 중 오류:', error);
+      return {
+        success: false,
+        error: {
+          message: '비밀번호 변경에 실패했습니다.'
+        }
+      };
+    }
   }
 } 
