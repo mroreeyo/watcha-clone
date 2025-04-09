@@ -17,12 +17,12 @@
       "inputs": ["src/**/*.tsx", "src/**/*.ts", ".eslintrc.js"]
     },
     "dev": {
-      "cache": true,
+      "cache": false,
       "persistent": true,
       "inputs": ["src/**/*.tsx", "src/**/*.ts", "package.json"]
     },
     "clean": {
-      "cache": true
+      "cache": false
     }
   }
 } 
