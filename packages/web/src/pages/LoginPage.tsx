@@ -49,6 +49,26 @@ const LoginPage: React.FC = () => {
           {error && <p className="error-message">{error}</p>}
           <button type="submit" className="login-form-button">로그인</button>
         </form>
+        <p className="login-subtitle">비밀번호를 잊어버리셨나요?</p>
+        
+        <form onSubmit={handleLogin} className="login-form">
+          <input
+            type="text"
+            placeholder="이메일 (example@gmail.com)"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="login-form-input"
+          />
+          <input
+            type="password"
+            placeholder="비밀번호"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="login-form-input"
+          />
+          {error && <p className="error-message">{error}</p>}
+          <button type="submit" className="login-form-button">로그인</button>
+        </form>
 
         <div className="social-login">
           <p>다른 방법으로 로그인하기</p>
