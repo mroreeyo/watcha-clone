@@ -1,7 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/SignUpPage.css';
-import { AuthService } from '@watcha-clone/shared';
+import { auth } from '../lib/auth';
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
@@ -138,7 +138,7 @@ const SignUpPage: React.FC = () => {
 
     if (!hasError) {
       try {
-        const response = await AuthService.signUp(email, password, name);
+        const response = await auth.signUp(email, password, name);
         if (response.success) {
           alert('회원가입이 완료되었습니다. 이메일을 확인해주세요.');
           navigate('/sign_in');
