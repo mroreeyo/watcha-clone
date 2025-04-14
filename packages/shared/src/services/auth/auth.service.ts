@@ -1,5 +1,5 @@
-import { supabase } from '../../api/supabase/client.js';
-import type { AuthResponse, UserProfile } from '../../types/auth.js';
+import { supabase } from '../../api/supabase/client';
+import type { AuthResponse, UserProfile } from '../../types/auth';
 
 export class AuthService {
   static supabase = supabase;

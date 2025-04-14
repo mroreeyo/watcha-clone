@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/LoginPage.css';
-import { auth } from '../lib/auth';
+import { AuthService } from '../../../shared/src/services/auth/auth.service';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const LoginPage: React.FC = () => {
     setError('');
 
     try {
-      const response = await auth.signIn(email, password);
+      const response = await AuthService.signIn(email, password);
       if (response.success) {
         navigate('/');
       } else {
