@@ -8,6 +8,7 @@ import SignUpPage from "./pages/SignUpPage";
 import "./styles/Header.css";
 import "./styles/SearchPage.css";
 import RecommendPage from "./pages/RecommendPage";
+import WebtoonPage from "./pages/WebtoonPage";
 
 const App: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ const App: React.FC = () => {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/sign_in" element={<LoginPage />} />
           <Route path="/sign_up" element={<SignUpPage />} />
+          <Route path="/browse/webtoon" element={<WebtoonPage />} />
         </Routes>
       </main>
     </Router>
