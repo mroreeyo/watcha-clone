@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import NotificationBox from "./NotificationBox";
 import "../styles/Header.css";
 import logoImg from "../assets/logo.png";
@@ -9,6 +9,7 @@ const Header: React.FC = () => {
   const [isNotificationOpen, setNotificationOpen] = useState(false);
   const iconRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -56,10 +57,10 @@ const Header: React.FC = () => {
             />
         </Link>
         <ul className="nav-menu">
-          <li><Link to="/browse/video">구독</Link></li>
-          <li className="active"><Link to="/browse/theater">개별 구매</Link></li>
-          <li><Link to="/browse/webtoon">웹툰</Link></li>
-          <li><Link to="/parties">왓챠파티</Link></li>
+          <li className={location.pathname === "/browse/video" ? "active" : ""}><Link to="/browse/video">구독</Link></li>
+          <li className={location.pathname === "/browse/theater" ? "active" : ""}><Link to="/browse/theater">개별 구매</Link></li>
+          <li className={location.pathname === "/browse/webtoon" ? "active" : ""}><Link to="/browse/webtoon">웹툰</Link></li>
+          <li className={location.pathname === "/parties" ? "active" : ""}><Link to="/parties">왓챠파티</Link></li>
         </ul>
       </div>
 
