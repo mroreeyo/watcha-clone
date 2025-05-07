@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/SignUpPage.css';
-import { AuthService } from '../../../shared/src/services/auth/auth.service';
+import { AuthService } from '@watcha-clone/shared';
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();

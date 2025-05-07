@@ -26,11 +26,6 @@
   color: rgba(255, 255, 255, 0.7);
   font-size: 13px;
   margin-bottom: 24px;
-  cursor: pointer;
-}
-
-.login-subtitle:hover {
-  text-decoration: underline;
 }
 
 .login-form {
@@ -121,5 +116,31 @@
   color: #FF4D4F;
   font-size: 14px;
   margin-top: 8px;
+  text-align: center;
+}
+
+.text-button {
+  background: none;
+  border: none;
+  color: #ff0558;
+  cursor: pointer;
+  font-size: inherit;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.text-button:hover {
+  color: #ff2d6e;
+}
+
+.reset-description {
+  color: #8c8c8c;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.success-message {
+  color: #00c853;
+  margin: 10px 0;
   text-align: center;
 } 
