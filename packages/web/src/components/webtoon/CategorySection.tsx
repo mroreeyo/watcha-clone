@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import "../../styles/CategorySection.css";
 
 interface Webtoon {
@@ -21,36 +22,54 @@ const CategorySection = () => {
   const kakaoWebtoons = webtoons.filter(w => w.provider === "KAKAO");
   const naverWebtoons = webtoons.filter(w => w.provider === "NAVER");
 
+  const preloadWebtoons = [
+    ...kakaoPageWebtoons.slice(0, 4),
+    ...kakaoWebtoons.slice(0, 3),
+    ...naverWebtoons.slice(0, 3)
+  ].slice(0, 10);
+
   return (
-    <section className="category-section">
-      <h2>카카오 페이지 웹툰</h2>
-      <div className="webtoon-list">
-        {kakaoPageWebtoons.slice(0, 10).map((webtoon) => (
-          <div className="webtoon-item" key={webtoon.id}>
-            <img src={webtoon.thumbnail[0]} alt={webtoon.title} />
-            <div>{webtoon.title}</div>
-          </div>
+    <>
+      <Helmet>
+        {preloadWebtoons.map((webtoon) => (
+          <link
+            key={webtoon.id}
+            rel="preload"
+            as="image"
+            href={webtoon.thumbnail[0]}
+          />
         ))}
-      </div>
-      <h2>카카오 웹툰</h2>
-      <div className="webtoon-list">
-        {kakaoWebtoons.slice(0, 10).map((webtoon) => (
-          <div className="webtoon-item" key={webtoon.id}>
-            <img src={webtoon.thumbnail[0]} alt={webtoon.title} />
-            <div>{webtoon.title}</div>
-          </div>
-        ))}
-      </div>
-      <h2>네이버 웹툰</h2>
-      <div className="webtoon-list">
-        {naverWebtoons.slice(0, 5).map((webtoon) => (
-          <div className="webtoon-item" key={webtoon.id}>
-            <img src={webtoon.thumbnail[0]} alt={webtoon.title} />
-            <div>{webtoon.title}</div>
-          </div>
-        ))}
-      </div>
-    </section>
+      </Helmet>
+      <section className="category-section">
+        <h2>카카오 페이지 웹툰</h2>
+        <div className="webtoon-list">
+          {kakaoPageWebtoons.slice(0, 10).map((webtoon) => (
+            <div className="webtoon-item" key={webtoon.id}>
+              <img src={webtoon.thumbnail[0]} alt={webtoon.title} loading="lazy" />
+              <div>{webtoon.title}</div>
+            </div>
+          ))}
+        </div>
+        <h2>카카오 웹툰</h2>
+        <div className="webtoon-list">
+          {kakaoWebtoons.slice(0, 10).map((webtoon) => (
+            <div className="webtoon-item" key={webtoon.id}>
+              <img src={webtoon.thumbnail[0]} alt={webtoon.title} loading="lazy" />
+              <div>{webtoon.title}</div>
+            </div>
+          ))}
+        </div>
+        <h2>네이버 웹툰</h2>
+        <div className="webtoon-list">
+          {naverWebtoons.slice(0, 5).map((webtoon) => (
+            <div className="webtoon-item" key={webtoon.id}>
+              <img src={webtoon.thumbnail[0]} alt={webtoon.title} loading="lazy" />
+              <div>{webtoon.title}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
   );
 };
 
