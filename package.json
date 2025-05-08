@@ -51,6 +51,7 @@
   },
   "packageManager": "pnpm@10.7.0",
   "dependencies": {
-    "react-helmet": "^6.1.0"
+    "react-helmet": "^6.1.0",
+    "zustand": "^5.0.4"
   }
 }

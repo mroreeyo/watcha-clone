@@ -4,6 +4,7 @@ import NotificationBox from "./NotificationBox";
 import "../styles/Header.css";
 import logoImg from "../assets/logo.png";
 import { AuthService } from '@watcha-clone/shared';
+import { useUserStore } from '../store/userStore';
 import type { UserProfile } from '@watcha-clone/shared';
 
 
@@ -14,7 +15,8 @@ const Header: React.FC = () => {
   const location = useLocation();
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [user, setUser] = useState<UserProfile | null>(null);
+  // const [user, setUser] = useState<UserProfile | null>(null);
+  const { user, setUser } = useUserStore();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const placeholders = [
