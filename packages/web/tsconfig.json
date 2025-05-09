@@ -6,7 +6,8 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@watcha-clone/web/*": ["src/components/*"]
     }
   },
   "include": ["src/**/*"],
