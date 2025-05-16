@@ -9,6 +9,7 @@ import "./styles/Header.css";
 import "./styles/SearchPage.css";
 import WebtoonPage from "./pages/WebtoonPage";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import MovieDetailPage from "./pages/MovieDetailPage";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,8 @@ const App: React.FC = () => {
             <Route path="/sign_in" element={<LoginPage />} />
             <Route path="/sign_up" element={<SignUpPage />} />
             <Route path="/browse/webtoon" element={<WebtoonPage />} />
+            <Route path="/movies/:id" element={<MovieDetailPage />} />
+            <Route path="/detail/:media_type/:id" element={<MovieDetailPage />} />
           </Routes>
         </main>
       </Router>
