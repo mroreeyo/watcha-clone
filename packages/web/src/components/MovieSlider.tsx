@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { useNavigate } from 'react-router-dom';
 
 interface Movie {
   id: number;
@@ -37,6 +38,7 @@ const MovieSlider: React.FC<Props> = ({
   const navigationPrevRef = useRef<HTMLDivElement>(null);
   const navigationNextRef = useRef<HTMLDivElement>(null);
   const swiperRef = useRef<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (navigationPrevRef.current && navigationNextRef.current && swiperRef.current) {
@@ -85,7 +87,11 @@ const MovieSlider: React.FC<Props> = ({
               {showRank && (
                 <div className="rank">{index + 1}</div>
               )}
-              <div className="movie-poster">
+              <div 
+                className="movie-poster"
+                onClick={() => navigate(`/movies/${movie.id}`)}
+                style={{ cursor: 'pointer' }}
+              >
                 <img 
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
                   alt={movie.title}
