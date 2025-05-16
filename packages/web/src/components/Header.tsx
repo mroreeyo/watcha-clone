@@ -15,7 +15,7 @@ const Header: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { data, isLoading, error } = useCurrentUser();
   const user = data?.user;
-
+  const [searchValue, setSearchValue] = useState("");
 
   const placeholders = [
     "범죄 영화, 어떠세요?",
@@ -38,6 +38,12 @@ const Header: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (location.pathname !== "/search") {
+      setSearchValue("");
+    }
+  }, [location.pathname]);
+
   const handleLogout = async () => {
     navigate('/');
     window.location.reload();
@@ -48,8 +54,11 @@ const Header: React.FC = () => {
     setNotificationOpen((prev) => !prev);
   };
 
-  const handleSearchClick = () => {
+  const handleSearch = () => {
     navigate("/search");
+    if (searchValue.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchValue.trim())}`);
+    }
   };
 
   return (
@@ -73,12 +82,17 @@ const Header: React.FC = () => {
 
       <div className="header-right">
      {/* 🔍 검색창 */}
-     <div className="search-container" onClick={handleSearchClick}>
+     <div className="search-container" onClick={handleSearch}>
         <input 
           type="text" 
-          className={`search-input ${isAnimating ? 'fade-out' : 'fade-in'}`}
+          className={`search-input${searchValue ? '' : (isAnimating ? ' fade-out' : ' fade-in')}`}
           placeholder={placeholders[placeholderIndex]} 
-          readOnly 
+          value={searchValue}
+          onChange={e => setSearchValue(e.target.value)}
+          onKeyDown={e => {
+            if (e.key === 'Enter') handleSearch();
+          }}
+          readOnly={location.pathname !== "/search"}
         />
         <button className="search-icon">🔍</button>
       </div>
