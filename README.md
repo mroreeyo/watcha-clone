@@ -1,5 +1,8 @@
 # 🎬 왓챠 극장 페이지 클론 프로젝트 (Frontend)
 
+프로젝트 URL
+https://d31wrkm2vdd919.cloudfront.net/
+
 ## 📌 기능 분석
 
 왓챠 극장 페이지(https://watcha.com/browse/theater)를 클론하여 주요 기능을 구현합니다.
