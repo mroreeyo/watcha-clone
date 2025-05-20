@@ -24,14 +24,14 @@ https://d31wrkm2vdd919.cloudfront.net/
    - 특정 영화를 클릭하면 해당 영화의 상세 정보 제공
    - 트레일러, 포스터, 리뷰, 출연진 정보 표시
 
-4. **필터링 및 정렬 기능**
+4. **필터링 및 정렬 기능** (개발 중)
    - 장르별 필터링 (예: 액션, 코미디, 드라마 등)
    - 평점순, 인기순 정렬
 
 5. **반응형 UI**
    - 모바일, 태블릿, 데스크톱 환경 대응 (Media Query 적용)
 
-6. **다크 모드**
+6. **다크 모드** (개발 예정)
    - 사용자 환경에 따라 다크 모드 & 라이트 모드 지원
 
 7. **API 연동**
@@ -52,6 +52,40 @@ https://d31wrkm2vdd919.cloudfront.net/
 | **코드 품질** | ESLint + Prettier + Husky | 코드 스타일 유지 및 자동 검사 |
 
 ---
+
+## 📦 패키지 매니저 및 모노레포 도구
+
+- **pnpm**: 빠르고 효율적인 패키지 매니저
+- **Turborepo**: 모노레포(여러 패키지 동시 관리) 환경 구축
+
+- ## 🏗️ 배포 인프라
+
+- **정적 파일 호스팅:** AWS S3
+- **CDN:** AWS CloudFront
+- **SPA 라우팅:** CloudFront 에러페이지(403/404 → /index.html) 설정
+- **배포 주소:** [https://d31wrkm2vdd919.cloudfront.net/](https://d31wrkm2vdd919.cloudfront.net/)
+
+---
+
+## 🏗️ 프로젝트 설치 및 실행
+
+```bash
+# pnpm 설치 (최초 1회)
+npm install -g pnpm
+
+# 의존성 설치
+pnpm install
+
+# 개발 서버 실행 (웹 패키지)
+pnpm --filter @watcha-clone/web dev
+
+# 전체 빌드 (turborepo)
+pnpm build
+
+# 4. S3에 배포
+aws s3 sync ./packages/web/dist s3://watcha-clone --delete
+```
+
 
 ## 📌 프로젝트 목표
 
