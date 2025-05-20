@@ -10,6 +10,7 @@ import "./styles/SearchPage.css";
 import WebtoonPage from "./pages/WebtoonPage";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import MovieDetailPage from "./pages/MovieDetailPage";
+import ErrorPage from "./pages/ErrorPage";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App: React.FC = () => {
             <Route path="/browse/webtoon" element={<WebtoonPage />} />
             <Route path="/movies/:id" element={<MovieDetailPage />} />
             <Route path="/detail/:media_type/:id" element={<MovieDetailPage />} />
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
         </main>
       </Router>
