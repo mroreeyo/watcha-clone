@@ -1,7 +1,7 @@
 # 🎬 왓챠 극장 페이지 클론 프로젝트 (Frontend)
 
 프로젝트 URL
-https://d31wrkm2vdd919.cloudfront.net/
+http://www.moivehub.com/
 
 ## 📌 기능 분석
 
