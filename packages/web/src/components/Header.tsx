@@ -3,10 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import NotificationBox from "./NotificationBox";
 import "../styles/Header.css";
 import logoImg from "../assets/logo.png";
-import { AuthService } from '@watcha-clone/shared';
-import { useUserStore } from '../store/userStore';
-import type { UserProfile } from '@watcha-clone/shared';
-
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const Header: React.FC = () => {
   const [isNotificationOpen, setNotificationOpen] = useState(false);
@@ -15,9 +12,10 @@ const Header: React.FC = () => {
   const location = useLocation();
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  // const [user, setUser] = useState<UserProfile | null>(null);
-  const { user, setUser } = useUserStore();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { data, isLoading, error } = useCurrentUser();
+  const user = data?.user;
+
 
   const placeholders = [
     "범죄 영화, 어떠세요?",
@@ -40,44 +38,9 @@ const Header: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    checkUser();
-
-    const { data: authListener } = AuthService.supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session) {
-        const user = session.user;
-        setUser({
-          id: user.id,
-          email: user.email || '',
-          name: user.user_metadata?.name || ''
-        });
-      } else {
-        setUser(null);
-      }
-    });
-
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
-  }, []);
-
-  const checkUser = async () => {
-    const { user } = await AuthService.getCurrentUser();
-    if (user) {
-      setUser({
-        id: user.id,
-        email: user.email || '',
-        name: user.user_metadata?.name || ''
-      });
-    }
-  };
-
   const handleLogout = async () => {
-    const response = await AuthService.signOut();
-    if (response.success) {
-      setUser(null);
-      navigate('/');
-    }
+    navigate('/');
+    window.location.reload();
   };
 
   const toggleNotification = (event: React.MouseEvent) => {
@@ -88,7 +51,6 @@ const Header: React.FC = () => {
   const handleSearchClick = () => {
     navigate("/search");
   };
-
 
   return (
     <nav className="header">
@@ -142,7 +104,7 @@ const Header: React.FC = () => {
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
               <img 
-                src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.name}`} 
+                src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.user_metadata?.name ?? '이름없음'}`} 
                 alt="프로필" 
                 className="profile-image"
               />
@@ -150,11 +112,11 @@ const Header: React.FC = () => {
                 <div className="dropdown-menu">
                   <div className="dropdown-header">
                     <img 
-                      src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.name}`} 
+                      src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.user_metadata?.name ?? '이름없음'}`} 
                       alt="프로필" 
                     />
                     <div className="user-info">
-                      <span className="user-name">{user.name}</span>
+                      <span className="user-name">{user.user_metadata?.name ?? '이름없음'}</span>
                       <span className="user-email">{user.email}</span>
                     </div>
                   </div>

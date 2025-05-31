@@ -112,3 +112,11 @@ export const getMoviesByPriceRange = (movies: any[], maxPrice: number) => {
       price: Math.floor(Math.random() * maxPrice)
     }));
 };
+
+export const fetchMovieDetail = async (id: string) => {
+  const res = await fetch(
+    `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=ko-KR&append_to_response=credits`
+  );
+  if (!res.ok) throw new Error('영화 정보를 불러올 수 없습니다.');
+  return res.json();
+};
