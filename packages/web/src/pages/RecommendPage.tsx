@@ -6,6 +6,7 @@ import 'swiper/css/navigation';
 import '../styles/RecommendPage.css';
 import MovieCard from '../components/MovieCard';
 import { fetchTrendingMovies } from '../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 interface Movie {
   id: number;
@@ -20,6 +21,7 @@ const RecommendPage = () => {
   const prevRef = useRef<HTMLDivElement>(null);
   const nextRef = useRef<HTMLDivElement>(null);
   const swiperRef = useRef<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadMovies = async () => {
@@ -75,14 +77,14 @@ const RecommendPage = () => {
           >
             {movies.map((movie) => (
               <SwiperSlide key={movie.id}>
-                <MovieCard movie={movie} />
+                <MovieCard movie={movie} onClick={() => navigate(`/movies/${movie.id}`)} />
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
         <div className="next-poster-gap" />
         {nextMovie && (
-          <div className="next-poster-preview-area">
+          <div className="next-poster-preview-area" onClick={() => navigate(`/movies/${nextMovie.id}`)} style={{ cursor: 'pointer' }}>
             <img
               src={`https://image.tmdb.org/t/p/original${nextMovie.backdrop_path}`}
               alt={nextMovie.title}
