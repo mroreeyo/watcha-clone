@@ -57,6 +57,11 @@ const SearchPage: React.FC = () => {
     : trending[activeIdx]?.backdrop_path || trending[activeIdx]?.poster_path;
 
   const handleTitleClick = (item: any) => {
+    console.log('클릭한 item:', {
+      id: item.id,
+      title: item.title,
+      media_type: item.media_type
+    });
     const mediaType = item.media_type || 'movie';
     navigate(`/detail/${mediaType}/${item.id}`);
   };
