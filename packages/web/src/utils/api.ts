@@ -3,7 +3,6 @@ import axios from "axios";
 // 🔥 환경 변수에서 API 키 가져오기
 const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
-console.log("API_KEY:", API_KEY);
 
 export const fetchTrendingMovies = async () => {
   try {
