@@ -1,3 +1,4 @@
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import MovieMainInfo from '../components/movie/MovieMainInfo';
@@ -7,6 +8,7 @@ import PeopleList from '../components/movie/PeopleList';
 import ReviewList from '../components/movie/ReviewList';
 import RelatedVideos from '../components/movie/RelatedVideos';
 import '../styles/MovieDetailPage.css';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
@@ -72,11 +74,8 @@ const MovieDetailPage = () => {
   });
   const reviews = reviewsData?.results || [];
 
-  // 라우팅 파라미터 id와 API로 받아온 movie.id를 콘솔에 출력
-  console.log('라우팅 파라미터 id:', id);
-  console.log('API로 받아온 movie.id:', movie?.id);
 
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading) return <LoadingSpinner size="large" />;
   if (error || !movie) return <div>영화 정보를 불러올 수 없습니다.</div>;
 
   const directors = movie.credits?.crew?.filter((person: any) => person.job === 'Director') || [];

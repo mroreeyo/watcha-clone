@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../styles/SearchPage.css";
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const TMDB_API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
@@ -13,6 +14,14 @@ const fetchTrending = async () => {
   return res.json();
 };
 
+const fetchGenreTrending = async (genreId: number) => {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&language=ko-KR`
+  );
+  if (!res.ok) throw new Error('장르별 트렌딩 정보를 불러올 수 없습니다.');
+  return res.json();
+};
+
 const fetchSearchResults = async (query: string) => {
   const res = await fetch(
     `https://api.themoviedb.org/3/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=ko-KR`
@@ -21,17 +30,40 @@ const fetchSearchResults = async (query: string) => {
   return res.json();
 };
 
+const GENRE_MAP: Record<string, number> = {
+  '드라마': 18,
+  '액션': 28,
+  '코미디': 35,
+  '모험': 12,
+  '판타지': 14,
+};
+const GENRE_LABELS = ['전체', '드라마', '액션', '코미디', '모험', '판타지'];
+
 const SearchPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const query = searchParams.get('query') || '';
 
-  const { data: trendingData, isLoading: trendingLoading, error: trendingError } = useQuery({
-    queryKey: ['trending'],
-    queryFn: fetchTrending,
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [isHovering, setIsHovering] = useState(false);
+  const [selectedGenre, setSelectedGenre] = useState<string>('전체');
+
+  const {
+    data: genreTrendingData,
+    isLoading: genreTrendingLoading,
+    error: genreTrendingError,
+  } = useQuery({
+    queryKey: ['genreTrending', selectedGenre],
+    queryFn: () => {
+      if (selectedGenre === '전체') return fetchTrending();
+      const genreId = GENRE_MAP[selectedGenre];
+      return fetchGenreTrending(genreId);
+    },
     enabled: !query,
   });
-  const trending = trendingData?.results?.slice(0, 10) || [];
+
+  const filteredTrending = genreTrendingData?.results?.slice(0, 10) || [];
 
   const { data: searchData, isLoading: searchLoading, error: searchError } = useQuery({
     queryKey: ['search', query],
@@ -40,28 +72,19 @@ const SearchPage: React.FC = () => {
   });
   const searchResults = searchData?.results || [];
 
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-  const [isHovering, setIsHovering] = useState(false);
-
   useEffect(() => {
-    if (trending.length === 0 || isHovering) return;
+    if (filteredTrending.length === 0 || isHovering) return;
     const timer = setInterval(() => {
-      setActiveIdx((prev) => (prev + 1) % trending.length);
+      setActiveIdx((prev) => (prev + 1) % filteredTrending.length);
     }, 2000);
     return () => clearInterval(timer);
-  }, [trending.length, isHovering]);
+  }, [filteredTrending.length, isHovering]);
 
   const activePoster = hoveredIdx !== null 
-    ? trending[hoveredIdx]?.backdrop_path || trending[hoveredIdx]?.poster_path
-    : trending[activeIdx]?.backdrop_path || trending[activeIdx]?.poster_path;
+    ? filteredTrending[hoveredIdx]?.backdrop_path || filteredTrending[hoveredIdx]?.poster_path
+    : filteredTrending[activeIdx]?.backdrop_path || filteredTrending[activeIdx]?.poster_path;
 
   const handleTitleClick = (item: any) => {
-    console.log('클릭한 item:', {
-      id: item.id,
-      title: item.title,
-      media_type: item.media_type
-    });
     const mediaType = item.media_type || 'movie';
     navigate(`/detail/${mediaType}/${item.id}`);
   };
@@ -76,7 +99,7 @@ const SearchPage: React.FC = () => {
         <section className="search-result-section">
           <h2 className="search-title">'{query}' 검색 결과</h2>
           {searchLoading ? (
-            <div>검색 중...</div>
+            <LoadingSpinner size="large" />
           ) : searchError ? (
             <div>검색 결과를 불러올 수 없습니다.</div>
           ) : searchResults.length === 0 ? (
@@ -156,21 +179,25 @@ const SearchPage: React.FC = () => {
             <div className="trending-left">
               <h2 className="trending-title">인기 검색어 TOP 10</h2>
               <div className="trending-tabs">
-                <button className="trending-tab active">전체</button>
-                <button className="trending-tab">스릴러</button>
-                <button className="trending-tab">로맨스</button>
-                <button className="trending-tab">범죄</button>
-                <button className="trending-tab">다른 장르 ▼</button>
+                {GENRE_LABELS.map((genre) => (
+                  <button
+                    key={genre}
+                    className={`trending-tab${selectedGenre === genre ? ' active' : ''}`}
+                    onClick={() => setSelectedGenre(genre)}
+                  >
+                    {genre}
+                  </button>
+                ))}
               </div>
               <div className="trending-list vertical">
-                {trendingLoading ? (
-                  <div>로딩 중...</div>
-                ) : trendingError ? (
+                {genreTrendingLoading ? (
+                  <LoadingSpinner size="large" />
+                ) : genreTrendingError ? (
                   <div>데이터를 불러올 수 없습니다.</div>
                 ) : (
                   <>
                     <div className="trending-list-column">
-                      {trending.slice(0, 5).map((item: any, idx: number) => (
+                      {filteredTrending.slice(0, 5).map((item: any, idx: number) => (
                         <li
                           key={item.id}
                           className={`trending-item vertical rank-${idx + 1}${idx === 4 ? ' bold' : ''}${!isHovering && activeIdx === idx ? ' active' : ''}`}
@@ -194,7 +221,7 @@ const SearchPage: React.FC = () => {
                       ))}
                     </div>
                     <div className="trending-list-column">
-                      {trending.slice(5, 10).map((item: any, idx: number) => (
+                      {filteredTrending.slice(5, 10).map((item: any, idx: number) => (
                         <li
                           key={item.id}
                           className={`trending-item vertical rank-${idx + 6}${idx === 4 ? ' bold' : ''}${!isHovering && activeIdx === idx + 5 ? ' active' : ''}`}
@@ -238,7 +265,6 @@ const SearchPage: React.FC = () => {
         </section>
       )}
       <div className="category-container">
-        <h3>인기</h3>
         <div className="category-list">
    
         </div>
