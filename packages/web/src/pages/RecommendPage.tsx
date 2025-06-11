@@ -52,6 +52,13 @@ const RecommendPage: React.FC = () => {
 
   const nextMovie = movies && movies.length > 0 ? movies[(currentIndex + 1) % movies.length] : null;
 
+  useEffect(() => {
+    if (nextMovie) {
+      const img = new Image();
+      img.src = `https://image.tmdb.org/t/p/original${nextMovie.backdrop_path}`;
+    }
+  }, [nextMovie]);
+
   return (
     <div className="recommend-page">
       {isLoading ? (
@@ -89,9 +96,16 @@ const RecommendPage: React.FC = () => {
             {nextMovie && (
               <div className="next-poster-preview-area" onClick={() => navigate(`/movies/${nextMovie.id}`)} style={{ cursor: 'pointer' }}>
                 <img
-                  src={`https://image.tmdb.org/t/p/original${nextMovie.backdrop_path}`}
+                  src={`https://image.tmdb.org/t/p/w780${nextMovie.backdrop_path}`}
                   alt={nextMovie.title}
                   className="next-poster-img-crop"
+                  loading="lazy"
+                  srcSet={`
+                    https://image.tmdb.org/t/p/w300${nextMovie.backdrop_path} 300w,
+                    https://image.tmdb.org/t/p/w780${nextMovie.backdrop_path} 780w,
+                    https://image.tmdb.org/t/p/w1280${nextMovie.backdrop_path} 1280w
+                  `}
+                  sizes="(max-width: 900px) 100px, 30vw"
                 />
                 <div className="next-poster-title">{nextMovie.title}</div>
               </div>
