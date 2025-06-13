@@ -57,7 +57,8 @@ const Header: React.FC = () => {
   const handleSearch = () => {
     navigate("/search");
     if (searchValue.trim()) {
-      navigate(`/search?query=${encodeURIComponent(searchValue.trim())}`);
+      const params = new URLSearchParams({ query: searchValue.trim() });
+      navigate(`/search?${params.toString()}`);
     }
   };
 
