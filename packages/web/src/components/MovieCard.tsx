@@ -8,13 +8,14 @@ interface MovieCardProps {
     overview: string;
     backdrop_path: string;
   };
+  onClick?: () => void;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
   const { title, overview, backdrop_path } = movie;
   
   return (
-    <div className="movie-card">
+    <div className="movie-card" onClick={onClick} style={{ cursor: onClick ? 'pointer' : undefined }}>
       <div className="image-container">
         <img 
           src={`https://image.tmdb.org/t/p/original${backdrop_path}`}
