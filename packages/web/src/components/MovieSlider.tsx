@@ -1,9 +1,10 @@
 import React, { useRef, useEffect } from "react";
 import "../styles/MovieSlider.css";
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { useNavigate } from 'react-router-dom';
 
 interface Movie {
   id: number;
@@ -15,12 +16,21 @@ interface Movie {
 
 interface Props {
   title: string;
-  movies: Movie[];
   showRank?: boolean;
   showPrice?: boolean;
+  movies: Movie[];
+  isLoading: boolean;
+  error: Error | null;
 }
 
-const MovieSlider: React.FC<Props> = ({ title, movies, showRank = false, showPrice = false }) => {
+const MovieSlider: React.FC<Props> = ({ 
+  title, 
+  showRank = false, 
+  showPrice = false,
+  movies,
+  isLoading,
+  error
+}) => {
   const formatPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
@@ -28,6 +38,7 @@ const MovieSlider: React.FC<Props> = ({ title, movies, showRank = false, showPri
   const navigationPrevRef = useRef<HTMLDivElement>(null);
   const navigationNextRef = useRef<HTMLDivElement>(null);
   const swiperRef = useRef<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (navigationPrevRef.current && navigationNextRef.current && swiperRef.current) {
@@ -35,6 +46,20 @@ const MovieSlider: React.FC<Props> = ({ title, movies, showRank = false, showPri
       swiperRef.current.navigation.update();
     }
   }, []);
+
+  if (isLoading) {
+    return <div className="movie-section">
+      <h3 className="section-title">{title}</h3>
+      <div className="loading">로딩 중...</div>
+    </div>;
+  }
+
+  if (error) {
+    return <div className="movie-section">
+      <h3 className="section-title">{title}</h3>
+      <div className="error">데이터를 불러오는데 실패했습니다.</div>
+    </div>;
+  }
 
   return (
     <div className="movie-section">
@@ -62,7 +87,11 @@ const MovieSlider: React.FC<Props> = ({ title, movies, showRank = false, showPri
               {showRank && (
                 <div className="rank">{index + 1}</div>
               )}
-              <div className="movie-poster">
+              <div 
+                className="movie-poster"
+                onClick={() => navigate(`/movies/${movie.id}`)}
+                style={{ cursor: 'pointer' }}
+              >
                 <img 
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
                   alt={movie.title}
